@@ -6,10 +6,10 @@ RUN apk add --no-cache \
       heimdal-telnet=1.6_rc2-r4 \
       iputils=20121221-r3 \
       lsof=4.89-r0 \
-      strace=4.10-r0 \
+      strace=4.11-r2 \
       tar=1.29-r0 \
       unzip=6.0-r1 \
-      wget=1.17.1-r0
+      wget=1.18-r0
 
 RUN addgroup keycloak -g 1000 && adduser -u 1000 -G keycloak -D keycloak 
 
