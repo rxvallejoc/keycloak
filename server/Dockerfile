@@ -1,8 +1,34 @@
 FROM rxvallejoc/java:8
 MAINTAINER Rodrigo Vallejo <rxvallejoc@gmail.com>
 
+RUN apk add --no-cache \
+      curl=7.49.1-r0 \
+      heimdal-telnet=1.6_rc2-r4 \
+      iputils=20121221-r3 \
+      lsof=4.89-r0 \
+      strace=4.10-r0 \
+      tar=1.29-r0 \
+      unzip=6.0-r1 \
+      wget=1.17.1-r0
+
 RUN addgroup keycloak -g 1000 && adduser -u 1000 -G keycloak -D keycloak 
 
 WORKDIR /home/keycloak
 
 USER keycloak
+
+ENV KEYCLOAK_VERSION 2.0.0.Final
+
+ENV LAUNCH_JBOSS_IN_BACKGROUND 1
+
+RUN cd /home/keycloak/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloak-$KEYCLOAK_VERSION.tar.gz | tar zx && mv /home/keycloak/keycloak-$KEYCLOAK_VERSION /home/keycloak/keycloak
+
+ADD docker-entrypoint.sh /home/keycloak/
+
+ENV JBOSS_HOME /home/keycloak/keycloak
+
+EXPOSE 8080
+
+ENTRYPOINT [ "/home/keycloak/docker-entrypoint.sh" ]
+
+CMD ["-b", "0.0.0.0"]
