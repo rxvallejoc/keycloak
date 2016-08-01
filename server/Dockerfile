@@ -25,6 +25,16 @@ RUN cd /home/keycloak/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK
 
 ADD docker-entrypoint.sh /home/keycloak/
 
+ADD standalone.xml /home/keycloak/keycloak/standalone/configuration/
+
+USER root
+
+RUN chown keycloak:keycloak /home/keycloak/docker-entrypoint.sh \
+  && chown keycloak:keycloak /home/keycloak/keycloak/standalone/configuration/standalone.xml \
+  && chmod 755 /home/keycloak/docker-entrypoint.sh
+
+USER keycloak
+
 ENV JBOSS_HOME /home/keycloak/keycloak
 
 EXPOSE 8080
