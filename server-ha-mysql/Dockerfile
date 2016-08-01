@@ -11,7 +11,7 @@ RUN apk add --no-cache \
       unzip=6.0-r1 \
       wget=1.18-r0
 
-RUN addgroup keycloak -g 1000 && adduser -u 1000 -G keycloak -D keycloak 
+RUN addgroup keycloak -g 1000 && adduser -u 1000 -G keycloak -D keycloak
 
 WORKDIR /home/keycloak
 
@@ -28,12 +28,12 @@ ADD module.xml /home/keycloak/keycloak/modules/system/layers/base/com/mysql/jdbc
 
 ADD docker-entrypoint.sh /home/keycloak/
 
-ADD standalone.xml /home/keycloak/keycloak/standalone/configuration/
+ADD standalone-ha.xml /home/keycloak/keycloak/standalone/configuration/
 
 USER root
 
 RUN chown keycloak:keycloak /home/keycloak/docker-entrypoint.sh \
-  && chown keycloak:keycloak /home/keycloak/keycloak/standalone/configuration/standalone.xml \
+  && chown keycloak:keycloak /home/keycloak/keycloak/standalone/configuration/standalone-ha.xml \
   && chmod 755 /home/keycloak/docker-entrypoint.sh
 
 USER keycloak
